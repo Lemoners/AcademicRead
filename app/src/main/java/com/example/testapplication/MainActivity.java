@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private int[] pos={0, 0};
     private String[][] long_text;
 
-    private long start_time;
+        private long start_time;
     private long end_time;
     private long duration = 0;
 
