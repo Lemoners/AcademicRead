@@ -4,13 +4,13 @@
 
 ## 和喻老师讨论的结果
 
-<img src="D:\2020_coding\HCI\Prototype\pic\QQMail_0 (1).png" alt="QQMail_0 (1)" style="zoom:80%;" />
+<img src=".\pic\QQMail_0 (1).png" alt="QQMail_0 (1)" style="zoom:80%;" />
 
 ## 和学姐讨论的结果
 
 ### 之前的Baseline
 
-<img src="D:\2020_coding\HCI\Prototype\pic\image-20200615005126843.png" alt="image-20200615005126843" style="zoom:80%;" />
+<img src=".\pic\image-20200615005126843.png" alt="image-20200615005126843" style="zoom:80%;" />
 
 - 基础型：双指负责上下切换行
 - 时间型：左侧控制开始暂停，右侧控制进度条
@@ -50,7 +50,7 @@
     左右滑：光标左右移动若干行
     ```
 
-- <img src="D:\2020_coding\HCI\Prototype\pic\image-20200615003132066.png" alt="image-20200615003132066" style="zoom:50%;" />
+- <img src=".\pic\image-20200615003132066.png" alt="image-20200615003132066" style="zoom:50%;" />
 
 - 优点：
 
@@ -86,7 +86,7 @@
       - 长按后右滑：
         - 进入`顺序阅读模式`
   - 顺序阅读模式M2:
-    - ![image-20200615004905261](D:\2020_coding\HCI\Prototype\pic\image-20200615004234861.png)
+    - ![image-20200615004905261](.\pic\image-20200615004234861.png)
     - 以用户长按时手指的位置为2区基准，分为三个区：
       - `1:` 后退区  `2：`暂停区  `3:`播放区
     - 用户手**按住**屏幕之后可以自由**左右滑动**以在三个区之间切换，通过手指停留在不同区控制播放器行为
