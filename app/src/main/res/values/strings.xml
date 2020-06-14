@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">TestApplication</string>
+    <string-array name="text_book"></string-array>
 </resources>
