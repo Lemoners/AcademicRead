@@ -196,8 +196,8 @@ public class AbsActivity extends AppCompatActivity implements TextToSpeech.OnIni
 
         // modify here
 //        displayText = mAbsFileLoader.lineText;
-//        displayText = mAbsFileLoader.vocabText;
-        displayText = mAbsFileLoader.charText;
+        displayText = mAbsFileLoader.vocabText;
+//        displayText = mAbsFileLoader.charText;
         mTextView.post(new Runnable() {
             @Override
             public void run() {
