@@ -1,4 +1,4 @@
-package com.example.testapplication;
+package com.example.prototype1;
 
 import android.content.Context;
 import androidx.test.platform.app.InstrumentationRegistry;

@@ -1,25 +1,19 @@
-package com.example.testapplication;
+package com.example.prototype1;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.view.menu.MenuView;
 
-import android.annotation.SuppressLint;
 import android.graphics.Point;
 import android.os.Bundle;
-import com.example.testapplication.FileLoader;
 
 import android.os.Handler;
 import android.os.Message;
 import android.speech.tts.TextToSpeech;
-import android.speech.tts.TextToSpeech.OnInitListener;
 import android.view.Display;
 import android.view.MotionEvent;
-import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.util.Log;
 
 import java.util.Locale;
 import java.util.Timer;

@@ -1,15 +1,12 @@
-package com.example.testapplication;
+package com.example.prototype1;
 
-import android.os.Build;
 import android.text.Layout;
 import android.text.Selection;
 import android.text.Spannable;
 import android.text.method.LinkMovementMethod;
 import android.text.method.MovementMethod;
 import android.text.style.ClickableSpan;
-import android.util.Log;
 import android.view.MotionEvent;
-import android.view.textclassifier.TextLinks;
 import android.widget.TextView;
 
 public class mLinkMovementMethod extends LinkMovementMethod {

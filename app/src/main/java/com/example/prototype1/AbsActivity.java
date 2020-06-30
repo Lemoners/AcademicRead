@@ -1,19 +1,15 @@
-package com.example.testapplication;
+package com.example.prototype1;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
-import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextPaint;
-import android.text.TextUtils;
-import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -22,7 +18,6 @@ import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.example.testapplication.mLinkMovementMethod;
 
 import java.util.Locale;
 import java.util.Vector;

@@ -1,19 +1,15 @@
-package com.example.testapplication;
+package com.example.prototype1;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.os.Bundle;
 
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
-import android.util.AttributeSet;
 import android.view.View;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.util.Log;
-import android.app.Activity;
 
 // Gesture Detector
 import android.view.GestureDetector;
