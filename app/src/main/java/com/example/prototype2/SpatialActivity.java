@@ -131,15 +131,15 @@ public class SpatialActivity extends AppCompatActivity implements TextToSpeech.O
             return true;
         } else if (event.getActionMasked() == MotionEvent.ACTION_UP) {
             long end_time = System.currentTimeMillis();
+            float x = event.getX(),
+                    y = event.getY();
             Log.e("time", String.valueOf(end_time-start_time));
-            if (end_time - start_time < 50) {
+            if (end_time - start_time < 250 && Math.abs(pos_y - y) < height/12) {
                 String s = fileLoader.get_text();
                 read(s);
                 return true;
             }
 
-            float x = event.getX(),
-                    y = event.getY();
 
             if (Math.abs(pos_y - y) > height/12) {
                 if (y > pos_y) {
