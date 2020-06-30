@@ -34,9 +34,10 @@ public class mLinkMovementMethod extends LinkMovementMethod {
             int off = layout.getOffsetForHorizontal(line, (int)x);
 
             float xLeft=layout.getPrimaryHorizontal(off);
-            if(xLeft < x){
-                off+=1;
-            }
+
+//            if(xLeft < x){
+//                off+=1;
+//            }
 
             ClickableSpan[] links = buffer.getSpans(off, off, ClickableSpan.class);
 

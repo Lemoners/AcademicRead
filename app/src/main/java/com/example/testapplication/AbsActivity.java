@@ -35,7 +35,7 @@ public class AbsActivity extends AppCompatActivity implements TextToSpeech.OnIni
     String[] displayText;
     int startDisplayIndex = 0;
     Vector<Integer> historyStartDisplayIndex;
-    final int displayPerPage = 130;
+    int displayPerPage = 0;
 
     int startReadIndex = 0;
 
@@ -204,6 +204,7 @@ public class AbsActivity extends AppCompatActivity implements TextToSpeech.OnIni
             @Override
             public void run() {
                 tvWidth = mTextView.getWidth() - mTextView.getPaddingLeft() - mTextView.getPaddingRight();
+                displayPerPage = (int)(tvWidth / mTextView.getPaint().measureText("中")) * 10;
                 set(displayText);
             }
         });
