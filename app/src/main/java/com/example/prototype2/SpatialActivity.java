@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.speech.tts.TextToSpeech;
+import android.util.Log;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
@@ -87,86 +88,7 @@ public class SpatialActivity extends AppCompatActivity implements TextToSpeech.O
         //file loader
         fileLoader = new FileLoader();
 
-        final String fullText = fileLoader.get_full_text();
-        textView.setText(fullText);
-
-        textView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                read(fullText);
-            }
-        });
-
-//        //seek bar
-//        seekBar = (SeekBar) findViewById(R.id.seekBar);
-//        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-//            @Override
-//            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-//                if (b) {
-//                    fileLoader.percentage_switch(i);
-//                    String s = fileLoader.get_text();
-//                    textView.setText(s);
-//                    status = 0;
-//                    reset();
-//                    Toast.makeText(SpatialActivity.this, "当前进度：" + String.valueOf(i), Toast.LENGTH_SHORT).show();
-//                    String info = fileLoader.get_cur_info();
-//                    read(info, 1.5f);
-//                }
-//            }
-//            @Override
-//            public void onStartTrackingTouch(SeekBar seekBar) {
-//            }
-//            @Override
-//            public void onStopTrackingTouch(SeekBar seekBar) {
-//            }
-//        });
-
-//        fileLoader.setSeekBar(seekBar);
-//
-//        handler = new Handler(){
-//            @Override
-//            public void handleMessage(@NonNull Message msg) {
-//                if (msg.what == UPDATE_STATUS) {
-//                    statusTextView.setText(String.valueOf(status));
-//                    if (status == 3) {
-//                        if (pos_x == -1 || pos_y == -1) {
-//                            return;
-//                        }
-//                        if (pos_x - x0 > range) {
-//                            if (textToSpeech != null && !textToSpeech.isSpeaking()) {
-////                                String sc = fileLoader.get_cursor_char();
-////                                fileLoader.char_switch(1);
-//                                String line = fileLoader.get_cursor_text();
-//                                fileLoader.line_switch(1);
-//                                read(line);
-//                                textView.setText(line);
-//                            }
-//                        } else if (x0 - pos_x > range) {
-//                            fileLoader.char_switch(-1);
-//                            String subs = fileLoader.get_cursor_text();
-//                            textView.setText(subs);
-//                            String c = fileLoader.get_cursor_char();
-//                            read(c,1.5f);
-//                        } else {
-//                            textToSpeech.stop();
-//                        }
-//                    }
-//                }
-//            }
-//        };
-
-
-        //timer
-//        Timer timer = new Timer();
-//        timer.schedule(new TimerTask() {
-//            @Override
-//            public void run() {
-//                Message message = new Message();
-//                message.what = UPDATE_STATUS;
-//                handler.sendMessage(message);
-//            }
-//        }, 0, 500);
-
+        textView.setText(fileLoader.get_text());
 
     }
 
@@ -200,8 +122,42 @@ public class SpatialActivity extends AppCompatActivity implements TextToSpeech.O
         return "";
     }
 
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
+            pos_x = event.getX();
+            pos_y = event.getY();
+            start_time = System.currentTimeMillis();
+            return true;
+        } else if (event.getActionMasked() == MotionEvent.ACTION_UP) {
+            long end_time = System.currentTimeMillis();
+            Log.e("time", String.valueOf(end_time-start_time));
+            if (end_time - start_time < 50) {
+                String s = fileLoader.get_text();
+                read(s);
+                return true;
+            }
 
-//    @Override
+            float x = event.getX(),
+                    y = event.getY();
+
+            if (Math.abs(pos_y - y) > height/12) {
+                if (y > pos_y) {
+                    fileLoader.line_switch(1);
+                } else {
+                    fileLoader.line_switch(-1);
+                }
+                String s = fileLoader.get_text();
+                read(s);
+                textView.setText(s);
+            }
+            return true;
+        } else {
+            return super.onTouchEvent(event);
+        }
+    }
+
+    //    @Override
 //    public boolean onTouchEvent(MotionEvent event) {
 ////        Toast.makeText(this, "IN", Toast.LENGTH_SHORT);
 ////        Log.e("E", "In: "+String.valueOf(event.getPointerCount()));
