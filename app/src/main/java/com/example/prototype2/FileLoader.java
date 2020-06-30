@@ -365,4 +365,14 @@ public class FileLoader {
             seekBar.setProgress(get_percentage());
         }
     }
+
+    String get_full_text() {
+        StringBuilder sb = new StringBuilder();
+        for (String[] i: text) {
+            for (String j : i) {
+                sb.append(j);
+            }
+        }
+        return sb.toString();
+    }
 }
