@@ -1,4 +1,4 @@
-package com.example.prototype1;
+package com.example.prototype2;
 
 import android.text.Layout;
 import android.text.Selection;

@@ -1,4 +1,4 @@
-package com.example.prototype1;
+package com.example.prototype2;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -182,6 +182,9 @@ public class AbsActivity extends AppCompatActivity implements TextToSpeech.OnIni
         setContentView(R.layout.activity_abs);
 
         mTextView = (TextView) findViewById(R.id.mTextView);
+
+
+
 //        mButton = (Button) findViewById(R.id.mButton);
         mAbsFileLoader = new AbsFileLoader();
 
@@ -194,15 +197,55 @@ public class AbsActivity extends AppCompatActivity implements TextToSpeech.OnIni
         // modify here
 //        displayText = mAbsFileLoader.lineText;
         displayText = mAbsFileLoader.vocabText;
-
+//        displayText = mAbsFileLoader.charText;
         mTextView.post(new Runnable() {
             @Override
             public void run() {
                 tvWidth = mTextView.getWidth() - mTextView.getPaddingLeft() - mTextView.getPaddingRight();
-                displayPerPage = (int)(tvWidth / mTextView.getPaint().measureText("中")) * 10;
+                StringBuilder sb = new StringBuilder();
+//                displayPerPage = -1;
+//                while (mTextView.getPaint().measureText(sb.toString()) < tvWidth) {
+//                    sb.append("中");
+//                    displayPerPage += 1;
+//                }
+                displayPerPage = (int)(tvWidth / mTextView.getPaint().measureText("我") - 2) * 8 + 1;
+                Log.e("Estimate pre line", String.valueOf(displayPerPage/8));
                 set(displayText);
             }
         });
+
+        Button btPrev = (Button) findViewById(R.id.mButtonPrev);
+        btPrev.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startDisplayIndex = getPreviousStartDisplayIndex();
+                Log.e("Prev", String.valueOf(startDisplayIndex));
+                if (startDisplayIndex == -1) {
+                    startDisplayIndex = 0;
+                    set(displayText);
+                    read("已到第一页");
+                } else {
+                    set(displayText);
+                    read("上翻一页");
+                }
+            }
+        });
+
+        Button btNext = (Button) findViewById(R.id.mButtonNext);
+        btNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (startDisplayIndex < displayText.length) {
+//                    Log.e("ADD", String.valueOf(startDisplayIndex));
+                    historyStartDisplayIndex.add(startDisplayIndex);
+                    set(displayText);
+                    read("下翻一页");
+                } else {
+                    read("已到最后一页");
+                }
+            }
+        });
+
 
     }
 
@@ -235,20 +278,20 @@ public class AbsActivity extends AppCompatActivity implements TextToSpeech.OnIni
         }
 
         int lineCount = 0;
-        float lineWidth = 0f;
+        StringBuilder lineWidth = new StringBuilder();
         int start = 0;
         Vector<String> thisLine = new Vector<String>();
         for (int i = tmptStartDisplayIndex; i < startDisplayIndex; i++) {
-            if (lineWidth + tvPaint.measureText(strListThisPage.get(i-tmptStartDisplayIndex)) <= tvWidth) {
+            if (tvPaint.measureText(lineWidth + strListThisPage.get(i-tmptStartDisplayIndex)) <= tvWidth) {
 //                Log.e("Measure", String.valueOf(tvPaint.measureText(strListThisPage.get(i))));
-                lineWidth += tvPaint.measureText(strListThisPage.get((i-tmptStartDisplayIndex)));
+                lineWidth.append(strListThisPage.get((i-tmptStartDisplayIndex)));
                 thisLine.add(strListThisPage.get(i-tmptStartDisplayIndex));
             } else {
                 StringBuilder charInThisLine = new StringBuilder();
                 for (int cnt = 0; cnt < strListThisPage.get(i-tmptStartDisplayIndex).length(); cnt++) {
                     char ch = strListThisPage.get(i-tmptStartDisplayIndex).charAt(cnt);
-                    if (lineWidth + tvPaint.measureText(String.valueOf(ch)) <= tvWidth) {
-                        lineWidth += tvPaint.measureText(String.valueOf(ch));
+                    if (tvPaint.measureText(lineWidth + String.valueOf(ch)) <= tvWidth) {
+                        lineWidth.append(String.valueOf(ch));
                         charInThisLine.append(ch);
                     } else {
                         int length = strListThisPage.get(i-tmptStartDisplayIndex).length();
@@ -277,14 +320,14 @@ public class AbsActivity extends AppCompatActivity implements TextToSpeech.OnIni
                 start += 1;
                 thisLine.clear();
                 lineCount += 1;
-                lineWidth = 0f;
+                lineWidth = new StringBuilder();
             }
         }
         // blank space
         StringBuilder blank = new StringBuilder();
-        while (lineWidth + tvPaint.measureText(" ") < tvWidth) {
+        while (tvPaint.measureText(lineWidth + " ") < tvWidth) {
             blank.append(" ");
-            lineWidth += tvPaint.measureText(" ");
+            lineWidth.append(" ");
         }
         thisLine.add(blank.toString());
 
@@ -314,16 +357,19 @@ public class AbsActivity extends AppCompatActivity implements TextToSpeech.OnIni
         thisLine.clear();
 
         mTextView.setText(sbSpanString, TextView.BufferType.SPANNABLE);
+        mTextView.setLineSpacing(10f, 2f);
         mTextView.setMovementMethod(mLinkMovementMethod.getInstance());
     }
 
     public int getPreviousStartDisplayIndex() {
         int size = historyStartDisplayIndex.size();
-        if (size == 0) {
-            return 0;
+        if (size <= 1) {
+            historyStartDisplayIndex.clear();
+            return -1;
         } else {
-            int res = historyStartDisplayIndex.elementAt(size-1);
+            int res = historyStartDisplayIndex.elementAt(size - 2);
             historyStartDisplayIndex.removeElementAt(size-1);
+            historyStartDisplayIndex.removeElementAt(size-2);
             return res;
         }
     }
@@ -381,15 +427,24 @@ public class AbsActivity extends AppCompatActivity implements TextToSpeech.OnIni
                 if (Math.abs(lastY - y) < 300) {
                     //do nothing
                 } else {
-                    if (y > lastY) {
-                        startDisplayIndex = getPreviousStartDisplayIndex();
-                        set(displayText);
-                    } else {
-                        if (startDisplayIndex < displayText.length) {
-                            historyStartDisplayIndex.add(startDisplayIndex);
-                            set(displayText);
-                        }
-                    }
+//                    if (y > lastY) {
+//                        startDisplayIndex = getPreviousStartDisplayIndex();
+//                        if (startDisplayIndex == -1) {
+//                            startDisplayIndex = 0;
+//                            read("以到第一页");
+//                        } else {
+//                            read("上翻一页");
+//                        }
+//                        set(displayText);
+//                    } else {
+//                        if (startDisplayIndex < displayText.length) {
+//                            historyStartDisplayIndex.add(startDisplayIndex);
+//                            set(displayText);
+//                            read("下翻一页");
+//                        } else {
+//                            read("已到最后一页");
+//                        }
+//                    }
                 }
 
             }
