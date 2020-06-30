@@ -210,7 +210,7 @@ public class AbsActivity extends AppCompatActivity implements TextToSpeech.OnIni
 //                    sb.append("中");
 //                    displayPerPage += 1;
 //                }
-                displayPerPage = (int)(tvWidth / mTextView.getPaint().measureText("我") - 2) * (int)(tvHeight / (1.9*mTextView.getPaint().measureText("中"))) + 1;
+                displayPerPage = (int)(tvWidth / mTextView.getPaint().measureText("我") - 2) * (int)(tvHeight / (2.0*mTextView.getPaint().measureText("中"))) + 1;
                 Log.e("Estimate pre line", String.valueOf(displayPerPage/8));
                 set(displayText);
             }
