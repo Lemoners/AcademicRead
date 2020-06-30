@@ -196,8 +196,8 @@ public class AbsActivity extends AppCompatActivity implements TextToSpeech.OnIni
 
         // modify here
 //        displayText = mAbsFileLoader.lineText;
-        displayText = mAbsFileLoader.vocabText;
-//        displayText = mAbsFileLoader.charText;
+//        displayText = mAbsFileLoader.vocabText;
+        displayText = mAbsFileLoader.charText;
         mTextView.post(new Runnable() {
             @Override
             public void run() {
@@ -357,7 +357,7 @@ public class AbsActivity extends AppCompatActivity implements TextToSpeech.OnIni
         thisLine.clear();
 
         mTextView.setText(sbSpanString, TextView.BufferType.SPANNABLE);
-        mTextView.setLineSpacing(10f, 2f);
+        mTextView.setLineSpacing(14f, 1.6f);
         mTextView.setMovementMethod(mLinkMovementMethod.getInstance());
     }
 
