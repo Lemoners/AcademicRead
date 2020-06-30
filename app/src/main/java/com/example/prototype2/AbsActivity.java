@@ -42,6 +42,7 @@ public class AbsActivity extends AppCompatActivity implements TextToSpeech.OnIni
     String readingNow = "";
 
     float tvWidth = 0;
+    float tvHeight = 0;
 
     private class OnTvGlobalLayoutListener implements ViewTreeObserver.OnGlobalLayoutListener {
         @Override
@@ -202,13 +203,14 @@ public class AbsActivity extends AppCompatActivity implements TextToSpeech.OnIni
             @Override
             public void run() {
                 tvWidth = mTextView.getWidth() - mTextView.getPaddingLeft() - mTextView.getPaddingRight();
+                tvHeight = mTextView.getHeight() - mTextView.getPaddingBottom() - mTextView.getPaddingTop();
                 StringBuilder sb = new StringBuilder();
 //                displayPerPage = -1;
 //                while (mTextView.getPaint().measureText(sb.toString()) < tvWidth) {
 //                    sb.append("中");
 //                    displayPerPage += 1;
 //                }
-                displayPerPage = (int)(tvWidth / mTextView.getPaint().measureText("我") - 2) * 8 + 1;
+                displayPerPage = (int)(tvWidth / mTextView.getPaint().measureText("我") - 2) * (int)(tvHeight / (1.9*mTextView.getPaint().measureText("中"))) + 1;
                 Log.e("Estimate pre line", String.valueOf(displayPerPage/8));
                 set(displayText);
             }
@@ -357,7 +359,7 @@ public class AbsActivity extends AppCompatActivity implements TextToSpeech.OnIni
         thisLine.clear();
 
         mTextView.setText(sbSpanString, TextView.BufferType.SPANNABLE);
-        mTextView.setLineSpacing(14f, 1.6f);
+//        mTextView.setLineSpacing(14f, 1.6f);
         mTextView.setMovementMethod(mLinkMovementMethod.getInstance());
     }
 
