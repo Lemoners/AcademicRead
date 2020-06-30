@@ -370,7 +370,7 @@ public class FileLoader {
         StringBuilder sb = new StringBuilder();
         for (String[] i: text) {
             for (String j : i) {
-                sb.append(j);
+                sb.append(j + ",");
             }
         }
         return sb.toString();
